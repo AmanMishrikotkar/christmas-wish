@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Merry Christmas 🎄</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif}
+body{background:black;overflow:hidden;color:white}
+
+/* Reel */
+.reel{
+    height:100vh;
+    overflow-y:scroll;
+    scroll-snap-type:y mandatory;
+}
+.slide{
+    height:100vh;
+    position:relative;
+    scroll-snap-align:start;
+}
+.slide img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    animation:zoom 6s ease-in-out infinite alternate;
+}
+@keyframes zoom{
+    from{transform:scale(1)}
+    to{transform:scale(1.05)}
+}
+
+/* Text */
+.text{
+    position:absolute;
+    bottom:15%;
+    left:50%;
+    transform:translateX(-50%);
+    width:90%;
+    text-align:center;
+    background:rgba(0,0,0,.5);
+    padding:15px;
+    border-radius:20px;
+    animation:fadeUp 1.5s ease;
+}
+@keyframes fadeUp{
+    from{opacity:0;transform:translate(-50%,30px)}
+    to{opacity:1;transform:translate(-50%,0)}
+}
+
+/* Last slide */
+.last{
+    background:linear-gradient(135deg,#0f9b0f,#000);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+.btn{
+    margin-top:20px;
+    padding:14px 30px;
+    border:none;
+    border-radius:30px;
+    background:#ff2d55;
+    color:white;
+    font-size:16px;
+    animation:pulse 1.5s infinite;
+}
+@keyframes pulse{
+    50%{transform:scale(1.08)}
+}
+
+/* Video */
+.video-wrap{
+    position:fixed;
+    inset:0;
+    background:black;
+    display:none;
+    z-index:10;
+}
+.video-wrap video{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+}
+
+/* Snow */
+.snow::before,.snow::after{
+    content:'';
+    position:fixed;
+    top:-100%;
+    left:0;
+    width:100%;
+    height:300%;
+    background-image:radial-gradient(white 2px,transparent 2px);
+    background-size:50px 50px;
+    animation:snow 12s linear infinite;
+    opacity:.5;
+    pointer-events:none;
+}
+.snow::after{animation-duration:18s;opacity:.3}
+@keyframes snow{
+    100%{transform:translateY(50%)}
+}
+
+/* Final Screen */
+.final{
+    position:fixed;
+    inset:0;
+    background:black;
+    display:none;
+    z-index:20;
+    overflow:hidden;
+}
+.tree{
+    position:absolute;
+    bottom:10px;
+    left:10px;
+    font-size:120px;
+    animation:glow 2s infinite alternate;
+}
+@keyframes glow{
+    from{filter:drop-shadow(0 0 5px green)}
+    to{filter:drop-shadow(0 0 20px lime)}
+}
+.final-msg{
+    position:absolute;
+    top:40%;
+    left:50%;
+    transform:translateX(-50%);
+    text-align:center;
+}
+.final-msg h1{
+    font-size:32px;
+}
+.final-msg p{
+    margin-top:10px;
+    font-size:18px;
+}
+
+/* Hearts */
+.heart{
+    position:absolute;
+    color:#ff4d6d;
+    animation:float 5s linear infinite;
+}
+@keyframes float{
+    from{transform:translateY(100vh);opacity:1}
+    to{transform:translateY(-10vh);opacity:0}
+}
+</style>
+</head>
+
+<body>
+
+<!-- Background Music -->
+<audio autoplay loop>
+    <source src="music/christmas.mp3">
+</audio>
+
+<div class="snow"></div>
+
+<div class="reel">
+    <section class="slide">
+        <img src="C:\Users\Dell\OneDrive\Desktop\ChristmasWish\pic3.jpg.jpeg">
+        <div class="text">
+            <h2>Merry Christmas 🎄</h2>
+            <p>Joy & warmth everywhere ✨</p>
+        </div>
+    </section>
+
+    <section class="slide">
+        <img src="C:\Users\Dell\OneDrive\Desktop\ChristmasWish\pic6.jpg.jpg">
+        <div class="text">
+            <h2>Season of Love ❤️</h2>
+            <p>Beautiful memories 🎁</p>
+        </div>
+    </section>
+
+    <section class="slide">
+        <img src="C:\Users\Dell\OneDrive\Desktop\ChristmasWish\pic2.jpg.jpeg">
+        <div class="text">
+            <h2>Warm Wishes ❄️</h2>
+            <p>Peace & happiness 🌟</p>
+        </div>
+    </section>
+
+    <section class="slide last">
+        <h1>🎁 Surprise Gift</h1>
+        <button class="btn" onclick="playVideo()">Open Gift</button>
+    </section>
+</div>
+
+<!-- Video -->
+<div class="video-wrap" id="videoWrap">
+    <video id="giftVideo" src="C:\Users\Dell\OneDrive\Desktop\ChristmasWish\Vedio,mp4.mp4"></video>
+</div>
+
+<!-- Final Screen -->
+<div class="final" id="finalScreen">
+    <div class="snow"></div>
+
+    <div class="tree">🎄</div>
+    <div class="santa">🎅</div>
+
+    <div class="final-msg">
+        <h1>❤️ Merry Christmas & Happy New Year, Aman 🎄✨</h1>
+        <p>
+            Iss Christmas aur New Year bas ek hi wish hai <br>
+            tumhari zindagi hamesha pyaar, sukoon<br>
+            aur khubsurat palon se bhari rahe 🤍❄️<br><br>
+            Tum ho toh har din festive lagta hai ✨
+        </p>
+    </div>
+
+    <!-- New Year Song -->
+    <audio id="finalSong">
+        <source src="newyear.mp3">
+    </audio>
+</div>
+
+
+<script>
+const video = document.getElementById("giftVideo");
+const videoWrap = document.getElementById("videoWrap");
+const final = document.getElementById("finalScreen");
+const jingle = document.getElementById("jingle");
+
+function playVideo(){
+    videoWrap.style.display="block";
+    video.play();
+}
+
+video.addEventListener("ended", ()=>{
+    videoWrap.style.display="none";
+    final.style.display="block";
+    jingle.play();
+    hearts();
+});
+
+function hearts(){
+    setInterval(()=>{
+        const h=document.createElement("div");
+        h.className="heart";
+        h.innerHTML="❤️";
+        h.style.left=Math.random()*100+"vw";
+        h.style.fontSize=(16+Math.random()*20)+"px";
+        document.body.appendChild(h);
+        setTimeout(()=>h.remove(),5000);
+    },400);
+}
+</script>
+
+</body>
+</html>
